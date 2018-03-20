@@ -11,17 +11,25 @@ import UIKit
 class ViewController: UIViewController {
     
     var flipCount = 0 {
+        // Property Observer
         didSet {
-            
+            flipCountLabel.text = "Flips: \(flipCount)"
         }
     }
     
-    @IBAction func touchCard(_ sender: UIButton) {
-        flipCard(withEmoji: "👻", on: sender)
-    }
+    @IBOutlet weak var flipCountLabel: UILabel!
     
-    @IBAction func touchSecondCard(_ sender: UIButton) {
-        flipCard(withEmoji: "🎃", on: sender)
+    @IBOutlet var cardButtons: [UIButton]!
+    
+    var emojiChoices = ["🎃", "👻", "🎃", "👻"]
+    
+    @IBAction func touchCard(_ sender: UIButton) {
+        flipCount += 1
+        if let cardNumber = cardButtons.index(of: sender) {
+            flipCard(withEmoji: emojiChoices[cardNumber], on: sender)
+        } else {
+            print("Chosen card was not in cardButtons")
+        }
     }
     
     func flipCard(withEmoji emoji: String, on button: UIButton)
