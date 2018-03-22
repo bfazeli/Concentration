@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var game = Concentration(numberOfPairsOfCards: cardButtons.count / 2)
+    
     var flipCount = 0 {
         // Property Observer
         didSet {
