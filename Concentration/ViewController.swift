@@ -21,11 +21,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
+    @IBOutlet weak var scoreLbl: UILabel!
+    
     @IBOutlet var cardButtons: [UIButton]!
     
     
     @IBAction func newGameBtn(_ sender: UIButton) {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        game.newGame()
         emojiChoices = [["🦇", "😱", "🍭", "😈", "🍎", "🎃", "👻"],
                         ["🐶", "🐱", "🐭", "🦁", "🐸", "🐨", "🐼"],
                         ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏓"],
@@ -40,6 +43,7 @@ class ViewController: UIViewController {
         flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
+            scoreLbl.text  = "Score: \(game.score)"
             updateViewFromModel()
         } else {
             print("Chosen card was not in cardButtons")
