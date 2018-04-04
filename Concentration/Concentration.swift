@@ -13,7 +13,30 @@ class Concentration {
     var score = 0
     var cards = [Card]()
     var prevSeen = [Int : Int]()
-    var indexOfOneAndOnlyFaceUpCard: Int?
+    
+    // Created an optional computed property
+    var indexOfOneAndOnlyFaceUpCard: Int? {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    if foundIndex == nil {
+                        foundIndex = index
+                    }
+                    else {
+                        return nil
+                    }
+                }
+            }
+            
+            return foundIndex
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
     
     func newGame() {
         self.score = 0
@@ -23,14 +46,12 @@ class Concentration {
     
     func chooseCard(at index: Int) {
         var scoreIncreased = false
-        var newSet = false
         
         if prevSeen[index] == nil {
             prevSeen[index] = 1
         }
         if !cards[index].isMatched {
             if let matchedIndex = indexOfOneAndOnlyFaceUpCard, matchedIndex != index {
-                
                 // Check if cards match
                 if cards[matchedIndex].identifier == cards[index].identifier {
                     cards[matchedIndex].isMatched = true
@@ -39,14 +60,9 @@ class Concentration {
                     scoreIncreased = true
                 }
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = nil
             }
             else {
-                // Either no cards or two cards are face up
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false
-                }
-                cards[index].isFaceUp = true
+                // Either no cards or two cards are face ups
                 indexOfOneAndOnlyFaceUpCard = index
             }
             if prevSeen[index] == 2, !scoreIncreased {
