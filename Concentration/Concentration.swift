@@ -11,11 +11,11 @@ import Foundation
 // Classes are reference type
 class Concentration {
     var score = 0
-    var cards = [Card]()
-    var prevSeen = [Int : Int]()
+    private(set) var cards = [Card]()
+    private var prevSeen = [Int : Int]()
     
     // Created an optional computed property
-    var indexOfOneAndOnlyFaceUpCard: Int? {
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             var foundIndex: Int?
             for index in cards.indices {
@@ -45,6 +45,8 @@ class Concentration {
     }
     
     func chooseCard(at index: Int) {
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at:\(index)): chosen index not in the cards")
+        
         var scoreIncreased = false
         
         if prevSeen[index] == nil {
@@ -77,6 +79,7 @@ class Concentration {
     
     
     init(numberOfPairsOfCards: Int) {
+        assert(numberOfPairsOfCards > 0, "Concentration.init(\(numberOfPairsOfCards)): You must pass at least one pair of cards.")
         for _ in 0..<numberOfPairsOfCards {
             let card = Card()
             cards += [card, card]
