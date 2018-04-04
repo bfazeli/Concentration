@@ -23,6 +23,8 @@ class Concentration {
     
     func chooseCard(at index: Int) {
         var scoreIncreased = false
+        var newSet = false
+        
         if prevSeen[index] == nil {
             prevSeen[index] = 1
         }
