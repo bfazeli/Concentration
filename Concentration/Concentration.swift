@@ -47,11 +47,7 @@ class Concentration {
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at:\(index)): chosen index not in the cards")
         
-        var scoreIncreased = false
         
-        if prevSeen[index] == nil {
-            prevSeen[index] = 1
-        }
         if !cards[index].isMatched {
             if let matchedIndex = indexOfOneAndOnlyFaceUpCard, matchedIndex != index {
                 // Check if cards match
@@ -59,21 +55,21 @@ class Concentration {
                     cards[matchedIndex].isMatched = true
                     cards[index].isMatched = true
                     score += 2
-                    scoreIncreased = true
+                }
+                else if (cards[index].seen) {
+                    score -= 1
                 }
                 cards[index].isFaceUp = true
             }
             else {
                 // Either no cards or two cards are face ups
                 indexOfOneAndOnlyFaceUpCard = index
+                if (cards[index].seen) {
+                    score -= 1
+                }
             }
-            if prevSeen[index] == 2, !scoreIncreased {
-                score -= 1
-            }
-            else {
-                prevSeen[index] = 2
-                scoreIncreased = false
-            }
+            
+            cards[index].seen = true;
         }
     }
     

@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     
     @IBAction private func newGameBtn(_ sender: UIButton) {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        flipCount = 0
         game.newGame()
         emojiChoices = [["🦇", "😱", "🍭", "😈", "🍎", "🎃", "👻"],
                         ["🐶", "🐱", "🐭", "🦁", "🐸", "🐨", "🐼"],
